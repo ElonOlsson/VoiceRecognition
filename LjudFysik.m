@@ -1,20 +1,23 @@
 %record.
 recObj = audiorecorder;
 disp('Start speaking.');
-recordblocking(recObj,4);
+recordblocking(recObj,2);
 disp('End of Recording.');
 y = getaudiodata(recObj);
 
 %%
-Fs = 8000;
+Fs = 9000;
+soundsc(y);
+%%
+Fs = 9000;
 x = zeros(1000,1);
 x(1) = 1;
 x(1000) = 1;
 z = conv(x,y);
 %frequency domain
-[b,a] = butter(3,[0.25 0.95],'bandpass');
+[b,a] = butter(3,[0.05 0.55],'bandpass');
 filteredY = filter(b,a,y);
-soundsc(filteredY,Fs/1.15);
+soundsc(filteredY,Fs/1);
 
 subplot(2,1,1)
 plot(z)
@@ -31,7 +34,7 @@ ylim(ys)
 Fs = 8000;
 blo = fir1(48,[0.35 0.75]);
 outlo = filter(blo,1,y);
-%soundsc(outlo,Fs);
+soundsc(outlo,Fs);
 
 subplot(2,1,1)
 plot(y)
@@ -58,10 +61,8 @@ f = Fs*(0:(N/2))/N;
 [b,a] = butter(3,0.3);
 filteredY = filter(b,a,y);
 filterfftY = fft(filteredY);
-Pfilter = abs(filterfftY/N):
-P2filter = Pfilter(1:N
-
-
+Pfilter = abs(filterfftY/N);
+P2filter = Pfilter(1:N);
 
 plot(f,P1)
 title('Single-Sided Amplitude Spectrum of X(t)')
